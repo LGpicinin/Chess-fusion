@@ -1,0 +1,17 @@
+.image{
+  width: 2100px;
+}
+
+div{
+  justify-content: baseline;
+}
+
+body{
+  text-align: center;
+  background-color: black;
+}
+
+#piece{
+  position: absolute;
+  width: 300px;
+}
