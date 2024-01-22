@@ -1,0 +1,38 @@
+img{
+    width: 10px;
+    height: 10px;
+}
+
+ul{
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    margin: 0px;
+}
+
+.line{
+    display: block;
+    padding: 0px;
+    margin: -9px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.square{
+    display: inline;
+}
+
+.divPiece{
+    display: inline;
+    width: 10px;
+    align-items: flex-end;
+    
+    
+}
+
+.piece{
+    width: 8px;
+    margin-left: -9px;
+    margin-top: 4px;
+    position: absolute;
+}

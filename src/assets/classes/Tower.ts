@@ -4,18 +4,19 @@ import blackTower from "../images/BlackTower.png"
 
 export class Tower extends Piece{
 
-    color: number;
 
     constructor(color:number, line: number, column: number){
         var img;
 
-        if(color==1)
+        if(color==1){
             img = whiteTower;
-        else
+        }
+        else{
             img = blackTower;
+            color = 2;
+        }
 
-        super(img, line, column);
+        super(img, line, column, color);
 
-        this.color = color;
     }
 }

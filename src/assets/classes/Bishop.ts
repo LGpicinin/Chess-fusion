@@ -4,7 +4,6 @@ import blackBishop from "../images/BlackBishop.png"
 
 export class Bishop extends Piece{
 
-    color: number;
 
     constructor(color:number, line: number, column: number){
         var img;
@@ -12,10 +11,12 @@ export class Bishop extends Piece{
         if(color==1)
             img = whiteBishop;
         else
+        {
             img = blackBishop;
+            color = 2;
+        }
 
-        super(img, line, column);
+        super(img, line, column, color);
 
-        this.color = color;
     }
 }

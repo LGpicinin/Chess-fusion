@@ -4,18 +4,18 @@ import blackQueen from "../images/BlackQueen.png"
 
 export class Queen extends Piece{
 
-    color: number;
 
     constructor(color:number, line: number, column: number){
         var img;
 
         if(color==1)
             img = whiteQueen;
-        else
+        else{
             img = blackQueen;
+            color = 2;
+        }
 
-        super(img, line, column);
+        super(img, line, column, color);
 
-        this.color = color;
     }
 }

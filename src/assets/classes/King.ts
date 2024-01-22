@@ -4,7 +4,6 @@ import blackKing from "../images/BlackKing.png"
 
 export class King extends Piece{
 
-    color: number;
 
     constructor(color:number, line: number, column: number){
         var img;
@@ -12,10 +11,12 @@ export class King extends Piece{
         if(color==1)
             img = whiteKing;
         else
+        {
             img = blackKing;
+            color = 2;
+        }
 
-        super(img, line, column);
+        super(img, line, column, color);
 
-        this.color = color;
     }
 }
