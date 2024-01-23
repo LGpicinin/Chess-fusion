@@ -16,4 +16,26 @@ export class Horse extends Piece{
 
         super(img, line, column, color);
     }
+
+    move(line:number, column:number){
+        if(Math.abs(this.line - line) == 2){
+            if(Math.abs(this.column - column) == 1){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else if(Math.abs(this.column - column) == 2){
+            if(Math.abs(this.line - line) == 1){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
 }

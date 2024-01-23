@@ -26,7 +26,7 @@ export function Game(){
             console.log("piece foi clicada");
             setBoard({...board, pieceClick: true, pieceClicked: piece});
         }
-        else if(board.pieceClick == true){
+        else if(board.pieceClick == true && board.pieceClicked){
             var line = 0;
             var column = 0;
             var oldLine = 0;
@@ -45,7 +45,7 @@ export function Game(){
                 pieceOrSquare = "square";
             }
             else if (piece!=undefined){
-                if(board.pieceClicked == piece){
+                if(board.pieceClicked.color == piece.color){
                     setBoard({...board, pieceClick: false});
                     return;
                 }
@@ -54,7 +54,7 @@ export function Game(){
                 pieceOrSquare = "piece"
             }
             if(board.pieceClicked){
-                possibleMove = board.pieceClicked.move(board, line, column, pieceOrSquare);
+                possibleMove = board.pieceClicked.move(line, column, board, pieceOrSquare);
                 if (possibleMove == false){
                     setBoard({...board, pieceClick: false});
                     return;

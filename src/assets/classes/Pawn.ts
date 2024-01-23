@@ -29,7 +29,7 @@ export class Pawn extends Piece{
         }
     }
 
-    move(board:Board, line:number, column:number, pieceOrSquare: string){
+    move(line:number, column:number, board:Board, pieceOrSquare: string){
         var alcance = 0;
         var square;
 

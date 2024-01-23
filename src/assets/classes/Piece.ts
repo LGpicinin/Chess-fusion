@@ -17,7 +17,7 @@ export class Piece{
         this.color = color;
     }
 
-    move(board:Board, line:undefined | number, column: undefined | number, pieceOrSquare: string | undefined){
+    move(line:undefined | number, column: undefined | number, board:Board, pieceOrSquare: string | undefined){
         console.log("estou em piece");
         return false;
     };
