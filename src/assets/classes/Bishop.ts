@@ -26,7 +26,7 @@ export class Bishop extends Piece{
 
     }
 
-    move(line:number, column:number, board:Board,){
+    move(line:number, column:number, board:Board){
         if(Math.abs(this.line - line) == Math.abs(this.column - column)){
             if(this.line > line){
                 this.lineMove = -1;

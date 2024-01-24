@@ -19,4 +19,13 @@ export class King extends Piece{
         super(img, line, column, color);
 
     }
+
+    move(line:number, column:number){
+        if(Math.abs(this.column - column)<=1 && Math.abs(this.line - line)<=1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
