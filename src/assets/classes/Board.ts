@@ -52,7 +52,7 @@ export class Board{
         for(var i=1; i<=8; i++){
             for(var j=1; j<=8; j++){
                 p = this.pieces.filter((piece) => piece.column == j && piece.line == i);
-                this.squares.push(new Square(false, [0,0], color, i, j, p[0]))
+                this.squares.push(new Square(false, color, i, j, p[0]))
                 color = color*(-1);
             }
             color = color*-1;

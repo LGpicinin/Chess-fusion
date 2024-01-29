@@ -23,8 +23,19 @@ export function Game(){
                 console.log("Nao eh sua vez");
                 return;
             }
-            console.log("piece foi clicada");
-            setBoard({...board, pieceClick: true, pieceClicked: piece});
+            var squares = board.squares.filter((square) => square.column == piece.column && square.line == piece.line);
+            squares[0].setColorToYellow();
+
+            var changedSquares = board.squares.filter(s => {
+                if(s.column == squares[0].column && squares[0].line == line){
+                    return square;
+                }
+                else{
+                    return s;
+                }
+            });
+
+            setBoard({...board, pieceClick: true, pieceClicked: piece, squares: changedSquares});
         }
         else if(board.pieceClick == true && board.pieceClicked){
             var line = 0;
@@ -39,6 +50,12 @@ export function Game(){
             var initialSq;
             var finalSquares;
 
+            initialSq = board.squares.filter((square) => square.piece == board.pieceClicked)
+            oldColumn = initialSq[0].column;
+            oldLine = initialSq[0].line;
+            oldSquare = initialSq[0];
+            oldSquare.setOriginalColor();
+
             if(square!=undefined){
                 column = square.column;
                 line = square.line;
@@ -46,7 +63,15 @@ export function Game(){
             }
             else if (piece!=undefined){
                 if(board.pieceClicked.color == piece.color){
-                    setBoard({...board, pieceClick: false});
+                    finalSquares = board.squares.filter(s => {
+                        if(s.column == oldColumn && s.line == oldLine){
+                            return oldSquare;
+                        }
+                        else{
+                            return s;
+                        }
+                    });
+                    setBoard({...board, pieceClick: false, squares: finalSquares});
                     return;
                 }
                 line = piece.line;
@@ -54,35 +79,37 @@ export function Game(){
                 pieceOrSquare = "piece"
             }
             if(board.pieceClicked){
-                possibleMove = board.pieceClicked.move(line, column, board, pieceOrSquare);
+                possibleMove = board.pieceClicked.move(line, column, board.squares, pieceOrSquare);
                 if (possibleMove == false){
-                    setBoard({...board, pieceClick: false});
+                    finalSquares = board.squares.filter(s => {
+                        if(s.column == oldColumn && s.line == oldLine){
+                            return oldSquare;
+                        }
+                        else{
+                            return s;
+                        }
+                    });
+                    setBoard({...board, pieceClick: false, squares: finalSquares});
                     return;
                 }
                 else{
-                    if(pieceOrSquare == "piece"){
+                    oldSquare.piece = undefined;
+                    if(piece!=undefined){
                         pieceDelete = board.pieces.filter((piece)=>piece.column == column && piece.line == line);
                         delete pieceDelete[0];
-                    }
 
-                    initialSq = board.squares.filter((square) => square.piece == board.pieceClicked)
-                    initialSq[0].piece = undefined;
-                    oldColumn = initialSq[0].column;
-                    oldLine = initialSq[0].line;
-                    oldSquare = initialSq[0];
-
-                    if(square){
-                        square.piece = board.pieceClicked;
-                        square.piece.column = column;
-                        square.piece.line = line;
-                    }
-                    else{
                         sq = board.squares.filter((square) => square.column == column && square.line == line);
                         sq[0].piece = board.pieceClicked;
                         sq[0].piece.line = line;
                         sq[0].piece.column = column;
                         square = sq[0];
                     }
+                    else if(square!=undefined){
+                        square.piece = board.pieceClicked;
+                        square.piece.column = column;
+                        square.piece.line = line;
+                    }
+
                     finalSquares = board.squares.filter(s => {
                         if(s.column == column && s.line == line){
                             return square;

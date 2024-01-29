@@ -1,4 +1,5 @@
 import { Piece } from "./Piece";
+import { Square } from "./Square";
 import whiteHorse from "../images/WhiteHorse.png"
 import blackHorse from "../images/BlackHorse.png"
 
@@ -15,6 +16,10 @@ export class Horse extends Piece{
         }
 
         super(img, line, column, color);
+    }
+
+    calculateControledSquares(squares: Square[]){
+        this.controledSquares = squares.filter((square) => (Math.abs(this.line - square.line) == 2 && Math.abs(this.column - square.column) == 1) || (Math.abs(this.line - square.line) == 1 && Math.abs(this.column - square.column) == 2));
     }
 
     move(line:number, column:number){

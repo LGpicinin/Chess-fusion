@@ -1,5 +1,5 @@
 import { Piece } from "./Piece";
-import { Board } from "./Board";
+import { Square } from "./Square";
 import whiteTower from "../images/WhiteTower.png"
 import blackTower from "../images/BlackTower.png"
 
@@ -26,7 +26,7 @@ export class Tower extends Piece{
 
     }
 
-    move(line:number, column:number, board:Board){
+    move(line:number, column:number, squares:Square[]){
         if(this.column == column || this.line == line){
             if(this.column!=column){
                 if(this.column > column){
@@ -51,7 +51,7 @@ export class Tower extends Piece{
             var column2 = this.column + this.columnMove;
 
             while(line2!=line || column2!=column){
-                var square = board.squares.filter((square) => square.column == column2 && square.line == line2);
+                var square = squares.filter((square) => square.column == column2 && square.line == line2);
                 if(square[0].piece){
                     return false;
                 }

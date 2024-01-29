@@ -18,6 +18,8 @@ export class King extends Piece{
 
         super(img, line, column, color);
 
+        this.iAmKing = true;
+
     }
 
     move(line:number, column:number){

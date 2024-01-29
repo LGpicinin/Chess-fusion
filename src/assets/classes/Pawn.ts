@@ -1,7 +1,7 @@
 import { Piece } from "./Piece";
 import whitePawn from "../images/WhitePawn.png"
 import blackPawn from "../images/BlackPawn.png"
-import { Board } from "./Board";
+import { Square } from "./Square";
 
 export class Pawn extends Piece{
 
@@ -29,7 +29,11 @@ export class Pawn extends Piece{
         }
     }
 
-    move(line:number, column:number, board:Board, pieceOrSquare: string){
+    calculateControledSquares(squares: Square[]){
+        this.controledSquares = squares.filter((square) => (square.column == this.column + 1 || square.column == this.column - 1) && square.line == this.line + (1)*this.colorChange);
+    }
+
+    move(line:number, column:number,squares:Square[], pieceOrSquare: string){
         var alcance = 0;
         var square;
 
@@ -48,7 +52,7 @@ export class Pawn extends Piece{
 
         
             if(alcance == 2){
-                square = board.squares.filter((square) => square.column==this.column && square.line==this.line + (1)*this.colorChange);
+                square = squares.filter((square) => square.column==this.column && square.line==this.line + (1)*this.colorChange);
                 if(square[0].piece){
                     console.log("piece no caminho");
                     return false;

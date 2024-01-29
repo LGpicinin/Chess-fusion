@@ -1,5 +1,5 @@
 import { Piece } from "./Piece";
-import { Board } from "./Board";
+import { Square } from "./Square";
 import whiteBishop from "../images/WhiteBishop.png"
 import blackBishop from "../images/BlackBishop.png"
 
@@ -26,7 +26,7 @@ export class Bishop extends Piece{
 
     }
 
-    move(line:number, column:number, board:Board){
+    move(line:number, column:number, squares:Square[]){
         if(Math.abs(this.line - line) == Math.abs(this.column - column)){
             if(this.line > line){
                 this.lineMove = -1;
@@ -44,7 +44,7 @@ export class Bishop extends Piece{
             var line2 = this.line + this.lineMove;
 
             while(line2!=line){
-                var square = board.squares.filter((square) => square.column == column2 && square.line == line2);
+                var square = squares.filter((square) => square.column == column2 && square.line == line2);
                 if(square[0].piece){
                     return false;
                 }

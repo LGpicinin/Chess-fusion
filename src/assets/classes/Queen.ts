@@ -1,7 +1,7 @@
 import { Piece } from "./Piece";
-import { Board } from "./Board";
 import whiteQueen from "../images/WhiteQueen.png"
 import blackQueen from "../images/BlackQueen.png"
+import { Square } from "./Square";
 
 export class Queen extends Piece{
 
@@ -26,7 +26,7 @@ export class Queen extends Piece{
         
     }
 
-    move(line:number, column:number, board:Board){
+    move(line:number, column:number, squares:Square[]){
         if(Math.abs(this.line - line) == Math.abs(this.column - column) || (this.column == column || this.line == line)){
             if(Math.abs(this.line - line) == Math.abs(this.column - column)){
                 if(this.line > line){
@@ -66,7 +66,7 @@ export class Queen extends Piece{
             var line2 = this.line + this.lineMove;
 
             while(line2!=line || column2!=column){
-                var square = board.squares.filter((square) => square.column == column2 && square.line == line2);
+                var square = squares.filter((square) => square.column == column2 && square.line == line2);
                 if(square[0].piece){
                     return false;
                 }
