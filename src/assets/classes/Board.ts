@@ -14,6 +14,8 @@ export class Board{
     pieceClick: boolean;
     pieceClicked?: Piece;
     whatColorPlays: number;
+    blackKing: King;
+    whiteKing: King;
     //whatColorPlays = 1 eh branco e = 2 eh preto
 
     constructor(){
@@ -21,6 +23,10 @@ export class Board{
         this.squares = [];
         this.pieceClick = false;
         this.whatColorPlays = 1;
+        this.whiteKing = new King(1, 1, 5);
+        this.blackKing = new King(8, 8, 5);
+        this.pieces.push(this.blackKing);
+        this.pieces.push(this.whiteKing);
 
         var color = 1;
         var p;
@@ -33,16 +39,35 @@ export class Board{
                     this.pieces.push(new Pawn(l, l, c));
                 }
                 else{
-                    if(c==1 || c==8)
-                        this.pieces.push(new Tower(l, l, c));
-                    else if(c==2 || c==7)
+                    if(c==2 || c==7)
                         this.pieces.push(new Horse(l, l, c));
                     else if(c==3 || c==6)
                         this.pieces.push(new Bishop(l, l, c));
+                    else if(c==1 || c==8){
+
+                        var tower = new Tower(l, l, c);
+
+                        if(l == 1){
+                            if(c == 1){
+                                this.whiteKing.setTowerBigRook(tower);
+                            }
+                            else{
+                                this.whiteKing.setTowerSmallRook(tower);
+                            }
+                        }
+                        else{
+                            if(c == 1){
+                                this.blackKing.setTowerBigRook(tower);
+                            }
+                            else{
+                                this.blackKing.setTowerSmallRook(tower);
+                            }
+                        }
+    
+                        this.pieces.push(tower);
+                    }
                     else if(c==4)
                         this.pieces.push(new Queen(l, l, c));
-                    else
-                        this.pieces.push(new King(l, l, c));
                 }
             }
             if(l==2) { l=6;}

@@ -25,22 +25,22 @@ export class Horse extends Piece{
     move(line:number, column:number){
         if(Math.abs(this.line - line) == 2){
             if(Math.abs(this.column - column) == 1){
-                return true;
+                return 1;
             }
             else{
-                return false;
+                return 0;
             }
         }
         else if(Math.abs(this.column - column) == 2){
             if(Math.abs(this.line - line) == 1){
-                return true;
+                return 1;
             }
             else{
-                return false;
+                return 0;
             }
         }
         else{
-            return false;
+            return 0;
         }
     }
 }

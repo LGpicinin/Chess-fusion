@@ -46,15 +46,15 @@ export class Bishop extends Piece{
             while(line2!=line){
                 var square = squares.filter((square) => square.column == column2 && square.line == line2);
                 if(square[0].piece){
-                    return false;
+                    return 0;
                 }
                 column2 = column2 + this.columnMove;
                 line2 = line2 + this.lineMove;
             }
-            return true;
+            return 1;
         }
         else{
-            return false;
+            return 0;
         }
     }
 }

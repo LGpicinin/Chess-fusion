@@ -12,6 +12,46 @@ function createBoard(){
     return board;
 }
 
+function movingPiece(newPiece: Piece, oldSquare: Square, board: Board, line: number, column: number, finalSquares: Square[], oldPiece?: Piece, newSquare?: Square){
+
+        var pieceDelete;
+        var sq;
+
+        oldSquare.piece = undefined;
+        if(oldPiece!=undefined){
+            pieceDelete = board.pieces.filter((piece)=>piece.column == column && piece.line == line);
+            delete pieceDelete[0];
+
+            sq = board.squares.filter((square) => square.column == column && square.line == line);
+            sq[0].piece = newPiece;
+            if(sq[0].piece){
+                sq[0].piece.line = line;
+                sq[0].piece.column = column;
+            }
+            newSquare = sq[0];
+        }
+        else if(newSquare!=undefined){
+            newSquare.piece = newPiece;
+            if(newSquare.piece){
+                newSquare.piece.column = column;
+                newSquare.piece.line = line;
+            }
+        }
+
+        finalSquares = finalSquares.filter(s => {
+            if(s.column == column && s.line == line){
+                return newSquare;
+            }
+            else if(s.column == oldSquare.column && s.line == oldSquare.line){
+                return oldSquare;
+            }
+            else{
+                return s;
+            }
+        });
+
+}
+
 
 export function Game(){
     
@@ -44,11 +84,9 @@ export function Game(){
             var oldColumn = 0;
             var oldSquare = square;
             var pieceOrSquare = "";
-            var possibleMove = false;
-            var pieceDelete;
-            var sq;
+            var possibleMove = 0;
             var initialSq;
-            var finalSquares;
+            var finalSquares = board.squares;
 
             initialSq = board.squares.filter((square) => square.piece == board.pieceClicked)
             oldColumn = initialSq[0].column;
@@ -63,7 +101,7 @@ export function Game(){
             }
             else if (piece!=undefined){
                 if(board.pieceClicked.color == piece.color){
-                    finalSquares = board.squares.filter(s => {
+                    finalSquares = finalSquares.filter(s => {
                         if(s.column == oldColumn && s.line == oldLine){
                             return oldSquare;
                         }
@@ -79,9 +117,11 @@ export function Game(){
                 pieceOrSquare = "piece"
             }
             if(board.pieceClicked){
+
                 possibleMove = board.pieceClicked.move(line, column, board.squares, pieceOrSquare);
-                if (possibleMove == false){
-                    finalSquares = board.squares.filter(s => {
+
+                if (possibleMove == 0){
+                    finalSquares = finalSquares.filter(s => {
                         if(s.column == oldColumn && s.line == oldLine){
                             return oldSquare;
                         }
@@ -92,35 +132,9 @@ export function Game(){
                     setBoard({...board, pieceClick: false, squares: finalSquares});
                     return;
                 }
+
+                
                 else{
-                    oldSquare.piece = undefined;
-                    if(piece!=undefined){
-                        pieceDelete = board.pieces.filter((piece)=>piece.column == column && piece.line == line);
-                        delete pieceDelete[0];
-
-                        sq = board.squares.filter((square) => square.column == column && square.line == line);
-                        sq[0].piece = board.pieceClicked;
-                        sq[0].piece.line = line;
-                        sq[0].piece.column = column;
-                        square = sq[0];
-                    }
-                    else if(square!=undefined){
-                        square.piece = board.pieceClicked;
-                        square.piece.column = column;
-                        square.piece.line = line;
-                    }
-
-                    finalSquares = board.squares.filter(s => {
-                        if(s.column == column && s.line == line){
-                            return square;
-                        }
-                        else if(s.column == oldColumn && s.line == oldLine){
-                            return oldSquare;
-                        }
-                        else{
-                            return s;
-                        }
-                    });
 
                     var color;
 
@@ -130,6 +144,35 @@ export function Game(){
                     else{
                         color = 1;
                     }
+
+                    movingPiece(board.pieceClicked, oldSquare, board, line, column, finalSquares, piece, square);
+
+                    if(possibleMove == 2){
+
+                        var king = board.whiteKing;
+                        
+                        if(board.blackKing.line == line && board.blackKing.line == line){
+                            king = board.blackKing;
+                        }
+                        
+                        if(king.doSmallRook == true){
+                            if(king.towerSmallRook){
+                                var tower = king.towerSmallRook
+                                var oldSquareTower = finalSquares.filter((square) => square.line == tower.line && square.column == tower.column);
+                                var newSquareTower = finalSquares.filter((square) => square.line == tower.line && square.column == 6);
+                                movingPiece(king.towerSmallRook, oldSquareTower[0], board, line, 6, finalSquares, piece, newSquareTower[0]);
+                            }
+                        }
+                        else{
+                            if(king.towerBigRook){
+                                var tower = king.towerBigRook;
+                                var oldSquareTower = finalSquares.filter((square) => square.line == tower.line && square.column == tower.column);
+                                var newSquareTower = finalSquares.filter((square) => square.line == tower.line && square.column == 4);
+                                movingPiece(king.towerBigRook, oldSquareTower[0], board, line, 4, finalSquares, piece, newSquareTower[0]);
+                            }
+                        }
+                    }
+                    
                     setBoard({...board, squares: finalSquares, pieceClick: false, whatColorPlays: color});
                 }
             }

@@ -28,6 +28,6 @@ export class Piece{
 
     move(line:undefined | number, column: undefined | number, squares:Square[], pieceOrSquare: string | undefined){
         console.log("estou em piece");
-        return false;
+        return 0;
     };
 }

@@ -7,6 +7,7 @@ export class Tower extends Piece{
 
     columnMove: number;
     lineMove: number;
+    firstMove: boolean;
 
     constructor(color:number, line: number, column: number){
         var img;
@@ -23,6 +24,7 @@ export class Tower extends Piece{
 
         this.columnMove = 1;
         this.lineMove = 1;
+        this.firstMove = false;
 
     }
 
@@ -53,15 +55,16 @@ export class Tower extends Piece{
             while(line2!=line || column2!=column){
                 var square = squares.filter((square) => square.column == column2 && square.line == line2);
                 if(square[0].piece){
-                    return false;
+                    return 0;
                 }
                 column2 = column2 + this.columnMove;
                 line2 = line2 + this.lineMove;
             }
-            return true;
+            this.firstMove = true;
+            return 1;
         }
         else{
-            return false;
+            return 0;
         }
     }
 }
