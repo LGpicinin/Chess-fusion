@@ -4,7 +4,7 @@ import { Square } from "./Square";
 
 export class Piece{
 
-    
+    id: number;
     image: string;
     line: number;
     column: number;
@@ -13,13 +13,14 @@ export class Piece{
     iAmKing: boolean;
     //colo = 1 eh branco e color = 2 eh preto
 
-    constructor(image:string, line: number, column: number, color: number){
+    constructor(image:string, line: number, column: number, color: number, id:number){
         this.image = image;
         this.line = line;
         this.column = column;
         this.color = color;
         this.controledSquares = [];
         this.iAmKing = false;
+        this.id = id;
     }
 
     calculateControledSquares(squares: Square[]){

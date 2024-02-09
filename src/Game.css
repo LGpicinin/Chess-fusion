@@ -35,3 +35,11 @@ ul{
     margin-left: -72px;
     position: absolute;
 }
+
+.promotionPiece{
+    width: 64px;
+}
+
+.promotionLine{
+    display: inline;
+}

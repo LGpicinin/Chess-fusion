@@ -8,18 +8,21 @@ export class Bishop extends Piece{
     columnMove: number;
     lineMove: number;
 
-    constructor(color:number, line: number, column: number){
+    constructor(line: number, column: number, id:number){
         var img;
+        var color;
 
-        if(color==1)
+        if(line==1){
             img = whiteBishop;
+            color = 1;
+        }
         else
         {
             img = blackBishop;
             color = 2;
         }
 
-        super(img, line, column, color);
+        super(img, line, column, color, id);
 
         this.columnMove = 1;
         this.lineMove = 1;

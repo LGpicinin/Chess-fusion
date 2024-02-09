@@ -9,11 +9,14 @@ export class Queen extends Piece{
     lineMove: number;
 
 
-    constructor(color:number, line: number, column: number){
+    constructor(line: number, column: number){
         var img;
+        var color;
 
-        if(color==1)
+        if(line==1){
             img = whiteQueen;
+            color = 1;
+        }
         else{
             img = blackQueen;
             color = 2;

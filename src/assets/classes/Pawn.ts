@@ -6,11 +6,13 @@ import { Square } from "./Square";
 export class Pawn extends Piece{
 
     colorChange: number;
+    promotionLine: number;
 
-    constructor(color:number, line: number, column: number){
+    constructor(line: number, column: number, id:number){
         var img;
+        var color;
 
-        if(color==2){
+        if(line==2){
             img = whitePawn;
             color = 1;
         }
@@ -19,13 +21,15 @@ export class Pawn extends Piece{
             color = 2;
         }
 
-        super(img, line, column, color);
+        super(img, line, column, color, id);
 
         if(color == 1){
             this.colorChange = 1;
+            this.promotionLine = 8;
         }
         else{
-            this.colorChange = -1
+            this.colorChange = -1;
+            this.promotionLine = 1;
         }
     }
 
@@ -59,6 +63,9 @@ export class Pawn extends Piece{
             if(line!=this.line + (1)*this.colorChange || (column!=this.column-1 && column!=this.column+1)){
                 return 0;
             }
+        }
+        if(line == this.promotionLine){
+            return 3;
         }
         return 1;
     }

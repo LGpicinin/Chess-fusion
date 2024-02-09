@@ -16,15 +16,16 @@ export class Board{
     whatColorPlays: number;
     blackKing: King;
     whiteKing: King;
-    //whatColorPlays = 1 eh branco e = 2 eh preto
+    //whatColorPlays = 1 eh branco e whatColorPlays = 2 eh preto
 
     constructor(){
+
         this.pieces = [];
         this.squares = [];
         this.pieceClick = false;
         this.whatColorPlays = 1;
-        this.whiteKing = new King(1, 1, 5);
-        this.blackKing = new King(8, 8, 5);
+        this.whiteKing = new King(1, 5, 1);
+        this.blackKing = new King(8, 5, 2);
         this.pieces.push(this.blackKing);
         this.pieces.push(this.whiteKing);
 
@@ -32,20 +33,21 @@ export class Board{
         var p;
         var l = 1;
         var c = 1;
+        var id = 3;
 
         for(l=1; l<=8; l++){
             for(c=1; c<=8; c++){
                 if(l==2 || l==7){
-                    this.pieces.push(new Pawn(l, l, c));
+                    this.pieces.push(new Pawn(l, c, id));
                 }
                 else{
                     if(c==2 || c==7)
-                        this.pieces.push(new Horse(l, l, c));
+                        this.pieces.push(new Horse(l, c, id));
                     else if(c==3 || c==6)
-                        this.pieces.push(new Bishop(l, l, c));
+                        this.pieces.push(new Bishop(l, c, id));
                     else if(c==1 || c==8){
 
-                        var tower = new Tower(l, l, c);
+                        var tower = new Tower(l, c, id);
 
                         if(l == 1){
                             if(c == 1){
@@ -67,8 +69,9 @@ export class Board{
                         this.pieces.push(tower);
                     }
                     else if(c==4)
-                        this.pieces.push(new Queen(l, l, c));
+                        this.pieces.push(new Queen(l, c, id));
                 }
+                id++;
             }
             if(l==2) { l=6;}
         }

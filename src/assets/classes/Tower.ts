@@ -9,18 +9,20 @@ export class Tower extends Piece{
     lineMove: number;
     firstMove: boolean;
 
-    constructor(color:number, line: number, column: number){
+    constructor(line: number, column: number, id:number){
         var img;
+        var color;
 
-        if(color==1){
+        if(line==1){
             img = whiteTower;
+            color = 1;
         }
         else{
             img = blackTower;
             color = 2;
         }
 
-        super(img, line, column, color);
+        super(img, line, column, color, id);
 
         this.columnMove = 1;
         this.lineMove = 1;

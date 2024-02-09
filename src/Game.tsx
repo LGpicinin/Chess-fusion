@@ -3,6 +3,7 @@ import './Game.css'
 import { Board } from './assets/classes/Board';
 import { Piece } from './assets/classes/Piece';
 import { Square } from './assets/classes/Square';
+import Promotion from './assets/components/Promotion';
 
 
 function createBoard(){
@@ -10,6 +11,10 @@ function createBoard(){
     const board = new Board();
 
     return board;
+}
+
+function promotionPiece(piece:Piece){
+
 }
 
 function movingPiece(newPiece: Piece, oldSquare: Square, board: Board, line: number, column: number, finalSquares: Square[], oldPiece?: Piece, newSquare?: Square){
@@ -56,6 +61,8 @@ function movingPiece(newPiece: Piece, oldSquare: Square, board: Board, line: num
 export function Game(){
     
     const [board, setBoard] = useState(createBoard);
+    const [whitePromotion, setWhitePromotion] = useState(false);
+    const [blackPromotion, setBlackPromotion] = useState(false);
 
     function click(piece?:Piece, square?:Square){
         if(board.pieceClick == false && piece!=undefined){
@@ -172,6 +179,16 @@ export function Game(){
                             }
                         }
                     }
+
+                    else if(possibleMove == 3){
+                        console.log("return 3 funcionou")
+                        if(line == 1){
+                            setBlackPromotion(true);
+                        }
+                        else{
+                            setWhitePromotion(true);
+                        }
+                    }
                     
                     setBoard({...board, squares: finalSquares, pieceClick: false, whatColorPlays: color});
                 }
@@ -183,6 +200,11 @@ export function Game(){
 
     return(
         <>
+            <Promotion
+                selectPiece={promotionPiece}
+                color={1}
+                visible={whitePromotion}
+            />
             <div>
                 <div className='line'>
                     {board.squares.map(square => square.line==8 && ( 
@@ -266,6 +288,11 @@ export function Game(){
                     ))}
                 </div>
             </div>
+            <Promotion
+                selectPiece={promotionPiece}
+                color={8}
+                visible={blackPromotion}
+            />
             
             
         </>

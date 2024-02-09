@@ -12,18 +12,21 @@ export class King extends Piece{
     doSmallRook: boolean;
 
 
-    constructor(color:number, line: number, column: number){
+    constructor(line: number, column: number, id:number){
         var img;
+        var color;
 
-        if(color==1)
+        if(line==1){
             img = whiteKing;
+            color = 1;
+        }
         else
         {
             img = blackKing;
             color = 2;
         }
 
-        super(img, line, column, color);
+        super(img, line, column, color, id);
 
         this.iAmKing = true;
         this.firstMove = false;
