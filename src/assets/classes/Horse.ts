@@ -18,7 +18,7 @@ export class Horse extends Piece{
             img = blackHorse;
         }
 
-        super(img, line, column, color, id);
+        super(img, line, column, color, id, 'horse');
     }
 
     calculateControledSquares(squares: Square[]){

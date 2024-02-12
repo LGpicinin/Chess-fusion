@@ -22,7 +22,7 @@ export class Bishop extends Piece{
             color = 2;
         }
 
-        super(img, line, column, color, id);
+        super(img, line, column, color, id, 'bishop');
 
         this.columnMove = 1;
         this.lineMove = 1;

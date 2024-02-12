@@ -3,7 +3,7 @@ import './Game.css'
 import { Board } from './assets/classes/Board';
 import { Piece } from './assets/classes/Piece';
 import { Square } from './assets/classes/Square';
-import Promotion from './assets/components/Promotion';
+import Promotion from './assets/components/Promotion/Promotion';
 
 
 function createBoard(){
@@ -11,10 +11,6 @@ function createBoard(){
     const board = new Board();
 
     return board;
-}
-
-function promotionPiece(piece:Piece){
-
 }
 
 function movingPiece(newPiece: Piece, oldSquare: Square, board: Board, line: number, column: number, finalSquares: Square[], oldPiece?: Piece, newSquare?: Square){
@@ -61,13 +57,45 @@ function movingPiece(newPiece: Piece, oldSquare: Square, board: Board, line: num
 export function Game(){
     
     const [board, setBoard] = useState(createBoard);
-    const [whitePromotion, setWhitePromotion] = useState(false);
-    const [blackPromotion, setBlackPromotion] = useState(false);
+    const [whitePromotion, setWhitePromotion] = useState('hidden');
+    const [blackPromotion, setBlackPromotion] = useState('hidden');
+
+    function promotionPiece(piece:Piece){
+        if(board.pieceClicked){
+            piece.column = board.pieceClicked.column;
+            piece.line = board.pieceClicked.line;
+
+            delete(board.pieceClicked);
+
+            var square = board.squares.filter((square) => square.column == piece.column && square.line == piece.line);
+            square[0].piece = piece;
+
+            var finalSquares = board.squares;
+
+            finalSquares = finalSquares.filter(s => {
+                if(s.column == square[0].column && s.line == square[0].line){
+                    return square[0];
+                }
+                else{
+                    return s;
+                }
+            });
+
+        }
+
+
+        if(piece.color == 1){
+            setWhitePromotion('hidden');
+        }
+        else{
+            setBlackPromotion('hidden');
+        }
+        setBoard({...board, promotion: false});
+    }
 
     function click(piece?:Piece, square?:Square){
         if(board.pieceClick == false && piece!=undefined){
-            if(piece.color != board.whatColorPlays){
-                console.log("Nao eh sua vez");
+            if(piece.color != board.whatColorPlays || board.promotion == true){
                 return;
             }
             var squares = board.squares.filter((square) => square.column == piece.column && square.line == piece.line);
@@ -144,6 +172,7 @@ export function Game(){
                 else{
 
                     var color;
+                    var promotion = false;
 
                     if (board.whatColorPlays == 1){
                         color = 2;
@@ -181,16 +210,16 @@ export function Game(){
                     }
 
                     else if(possibleMove == 3){
-                        console.log("return 3 funcionou")
+                        promotion = true;
                         if(line == 1){
-                            setBlackPromotion(true);
+                            setBlackPromotion('visible');
                         }
                         else{
-                            setWhitePromotion(true);
+                            setWhitePromotion('visible');
                         }
                     }
                     
-                    setBoard({...board, squares: finalSquares, pieceClick: false, whatColorPlays: color});
+                    setBoard({...board, squares: finalSquares, pieceClick: false, whatColorPlays: color, promotion: promotion});
                 }
             }
         }

@@ -9,7 +9,7 @@ export class Queen extends Piece{
     lineMove: number;
 
 
-    constructor(line: number, column: number){
+    constructor(line: number, column: number, id:number){
         var img;
         var color;
 
@@ -22,7 +22,7 @@ export class Queen extends Piece{
             color = 2;
         }
 
-        super(img, line, column, color);
+        super(img, line, column, color, id, 'queen');
 
         this.columnMove = 1;
         this.lineMove = 1;

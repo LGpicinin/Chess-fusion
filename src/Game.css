@@ -1,6 +1,10 @@
 img{
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
+}
+
+body{
+    align-content: center;
 }
 
 ul{
@@ -24,22 +28,14 @@ ul{
 
 .divPiece{
     display: inline;
-    width: 80px;
+    width: 70px;
     align-items: flex-end;
     
     
 }
 
 .piece{
-    width: 64px;
-    margin-left: -72px;
+    width: 56px;
+    margin-left: -63px;
     position: absolute;
-}
-
-.promotionPiece{
-    width: 64px;
-}
-
-.promotionLine{
-    display: inline;
 }

@@ -22,7 +22,7 @@ export class Tower extends Piece{
             color = 2;
         }
 
-        super(img, line, column, color, id);
+        super(img, line, column, color, id, 'tower');
 
         this.columnMove = 1;
         this.lineMove = 1;

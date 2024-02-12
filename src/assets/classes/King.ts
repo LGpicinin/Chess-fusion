@@ -26,7 +26,7 @@ export class King extends Piece{
             color = 2;
         }
 
-        super(img, line, column, color, id);
+        super(img, line, column, color, id, 'king');
 
         this.iAmKing = true;
         this.firstMove = false;

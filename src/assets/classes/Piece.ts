@@ -11,9 +11,10 @@ export class Piece{
     color: number;
     controledSquares?: Square[];
     iAmKing: boolean;
+    type: string;
     //colo = 1 eh branco e color = 2 eh preto
 
-    constructor(image:string, line: number, column: number, color: number, id:number){
+    constructor(image:string, line: number, column: number, color: number, id:number, type:string){
         this.image = image;
         this.line = line;
         this.column = column;
@@ -21,6 +22,7 @@ export class Piece{
         this.controledSquares = [];
         this.iAmKing = false;
         this.id = id;
+        this.type = type;
     }
 
     calculateControledSquares(squares: Square[]){

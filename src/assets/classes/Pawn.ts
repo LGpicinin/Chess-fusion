@@ -21,7 +21,7 @@ export class Pawn extends Piece{
             color = 2;
         }
 
-        super(img, line, column, color, id);
+        super(img, line, column, color, id, 'pawn');
 
         if(color == 1){
             this.colorChange = 1;

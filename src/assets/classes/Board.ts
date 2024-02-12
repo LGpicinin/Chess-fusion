@@ -16,6 +16,7 @@ export class Board{
     whatColorPlays: number;
     blackKing: King;
     whiteKing: King;
+    promotion: boolean;
     //whatColorPlays = 1 eh branco e whatColorPlays = 2 eh preto
 
     constructor(){
@@ -28,6 +29,7 @@ export class Board{
         this.blackKing = new King(8, 5, 2);
         this.pieces.push(this.blackKing);
         this.pieces.push(this.whiteKing);
+        this.promotion = false;
 
         var color = 1;
         var p;
