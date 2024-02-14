@@ -11,6 +11,7 @@ export class Piece{
     color: number;
     controledSquares?: Square[];
     iAmKing: boolean;
+    whenAvanceTwoSquares: number; //somente peõs alteram esse atributo
     type: string;
     //colo = 1 eh branco e color = 2 eh preto
 
@@ -23,13 +24,14 @@ export class Piece{
         this.iAmKing = false;
         this.id = id;
         this.type = type;
+        this.whenAvanceTwoSquares = 0;
     }
 
     calculateControledSquares(squares: Square[]){
         console.log("estou em piece");
     }
 
-    move(line:undefined | number, column: undefined | number, squares:Square[], pieceOrSquare: string | undefined){
+    move(line:undefined | number, column: undefined | number, squares:Square[], pieceOrSquare: string | undefined, numberOfPlays:number){
         console.log("estou em piece");
         return 0;
     };

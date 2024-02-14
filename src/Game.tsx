@@ -13,43 +13,26 @@ function createBoard(){
     return board;
 }
 
-function movingPiece(newPiece: Piece, oldSquare: Square, board: Board, line: number, column: number, finalSquares: Square[], oldPiece?: Piece, newSquare?: Square){
+function movingPiece(newPiece: Piece, oldSquare: Square, board: Board, line: number, column: number, oldPiece?: Piece, newSquare?: Square){
 
         var pieceDelete;
         var sq;
 
         oldSquare.piece = undefined;
         if(oldPiece!=undefined){
-            pieceDelete = board.pieces.filter((piece)=>piece.column == column && piece.line == line);
+            pieceDelete = board.pieces.filter((piece)=>piece.column == oldPiece.column && piece.line == oldPiece.line);
             delete pieceDelete[0];
 
             sq = board.squares.filter((square) => square.column == column && square.line == line);
             sq[0].piece = newPiece;
-            if(sq[0].piece){
-                sq[0].piece.line = line;
-                sq[0].piece.column = column;
-            }
-            newSquare = sq[0];
+            sq[0].piece.line = line;
+            sq[0].piece.column = column;
         }
         else if(newSquare!=undefined){
             newSquare.piece = newPiece;
-            if(newSquare.piece){
-                newSquare.piece.column = column;
-                newSquare.piece.line = line;
-            }
+            newSquare.piece.column = column;
+            newSquare.piece.line = line;
         }
-
-        finalSquares = finalSquares.filter(s => {
-            if(s.column == column && s.line == line){
-                return newSquare;
-            }
-            else if(s.column == oldSquare.column && s.line == oldSquare.line){
-                return oldSquare;
-            }
-            else{
-                return s;
-            }
-        });
 
 }
 
@@ -69,17 +52,6 @@ export function Game(){
 
             var square = board.squares.filter((square) => square.column == piece.column && square.line == piece.line);
             square[0].piece = piece;
-
-            var finalSquares = board.squares;
-
-            finalSquares = finalSquares.filter(s => {
-                if(s.column == square[0].column && s.line == square[0].line){
-                    return square[0];
-                }
-                else{
-                    return s;
-                }
-            });
 
         }
 
@@ -101,31 +73,18 @@ export function Game(){
             var squares = board.squares.filter((square) => square.column == piece.column && square.line == piece.line);
             squares[0].setColorToYellow();
 
-            var changedSquares = board.squares.filter(s => {
-                if(s.column == squares[0].column && squares[0].line == line){
-                    return square;
-                }
-                else{
-                    return s;
-                }
-            });
 
-            setBoard({...board, pieceClick: true, pieceClicked: piece, squares: changedSquares});
+            setBoard({...board, pieceClick: true, pieceClicked: piece,});
         }
         else if(board.pieceClick == true && board.pieceClicked){
             var line = 0;
             var column = 0;
-            var oldLine = 0;
-            var oldColumn = 0;
             var oldSquare = square;
             var pieceOrSquare = "";
             var possibleMove = 0;
             var initialSq;
-            var finalSquares = board.squares;
 
-            initialSq = board.squares.filter((square) => square.piece == board.pieceClicked)
-            oldColumn = initialSq[0].column;
-            oldLine = initialSq[0].line;
+            initialSq = board.squares.filter((square) => square.piece == board.pieceClicked);
             oldSquare = initialSq[0];
             oldSquare.setOriginalColor();
 
@@ -136,15 +95,8 @@ export function Game(){
             }
             else if (piece!=undefined){
                 if(board.pieceClicked.color == piece.color){
-                    finalSquares = finalSquares.filter(s => {
-                        if(s.column == oldColumn && s.line == oldLine){
-                            return oldSquare;
-                        }
-                        else{
-                            return s;
-                        }
-                    });
-                    setBoard({...board, pieceClick: false, squares: finalSquares});
+                    
+                    setBoard({...board, pieceClick: false,});
                     return;
                 }
                 line = piece.line;
@@ -153,26 +105,17 @@ export function Game(){
             }
             if(board.pieceClicked){
 
-                possibleMove = board.pieceClicked.move(line, column, board.squares, pieceOrSquare);
+                possibleMove = board.pieceClicked.move(line, column, board.squares, pieceOrSquare, board.numberOfPlays);
 
                 if (possibleMove == 0){
-                    finalSquares = finalSquares.filter(s => {
-                        if(s.column == oldColumn && s.line == oldLine){
-                            return oldSquare;
-                        }
-                        else{
-                            return s;
-                        }
-                    });
-                    setBoard({...board, pieceClick: false, squares: finalSquares});
+                    setBoard({...board, pieceClick: false});
                     return;
                 }
-
                 
                 else{
-
                     var color;
                     var promotion = false;
+                    var numberOfPlays = board.numberOfPlays + 1;
 
                     if (board.whatColorPlays == 1){
                         color = 2;
@@ -181,30 +124,34 @@ export function Game(){
                         color = 1;
                     }
 
-                    movingPiece(board.pieceClicked, oldSquare, board, line, column, finalSquares, piece, square);
+                    movingPiece(board.pieceClicked, oldSquare, board, line, column, piece, square);
 
                     if(possibleMove == 2){
 
                         var king = board.whiteKing;
                         
-                        if(board.blackKing.line == line && board.blackKing.line == line){
+                        if(board.blackKing.line == line){
                             king = board.blackKing;
                         }
                         
                         if(king.doSmallRook == true){
                             if(king.towerSmallRook){
                                 var tower = king.towerSmallRook
-                                var oldSquareTower = finalSquares.filter((square) => square.line == tower.line && square.column == tower.column);
-                                var newSquareTower = finalSquares.filter((square) => square.line == tower.line && square.column == 6);
-                                movingPiece(king.towerSmallRook, oldSquareTower[0], board, line, 6, finalSquares, piece, newSquareTower[0]);
+                                var oldSquareTower = board.squares.filter(
+                                    (square) => square.line == tower.line && square.column == tower.column
+                                );
+                                var newSquareTower = board.squares.filter((square) => square.line == tower.line && square.column == 6);
+                                movingPiece(king.towerSmallRook, oldSquareTower[0], board, line, 6, piece, newSquareTower[0]);
                             }
                         }
                         else{
                             if(king.towerBigRook){
                                 var tower = king.towerBigRook;
-                                var oldSquareTower = finalSquares.filter((square) => square.line == tower.line && square.column == tower.column);
-                                var newSquareTower = finalSquares.filter((square) => square.line == tower.line && square.column == 4);
-                                movingPiece(king.towerBigRook, oldSquareTower[0], board, line, 4, finalSquares, piece, newSquareTower[0]);
+                                var oldSquareTower = board.squares.filter(
+                                    (square) => square.line == tower.line && square.column == tower.column
+                                );
+                                var newSquareTower = board.squares.filter((square) => square.line == tower.line && square.column == 4);
+                                movingPiece(king.towerBigRook, oldSquareTower[0], board, line, 4, piece, newSquareTower[0]);
                             }
                         }
                     }
@@ -218,8 +165,25 @@ export function Game(){
                             setWhitePromotion('visible');
                         }
                     }
+
+                    else if(possibleMove == 4){
+                        var pieceDelete = board.pieces.filter((piece) => piece.whenAvanceTwoSquares == board.numberOfPlays);
+                        var sq = board.squares.filter(
+                            (square) => square.line == pieceDelete[0].line && square.column == pieceDelete[0].column
+                        );
+
+                        sq[0].piece = undefined;
+                        delete(pieceDelete[0]);
+                    }
                     
-                    setBoard({...board, squares: finalSquares, pieceClick: false, whatColorPlays: color, promotion: promotion});
+                    setBoard(
+                        {   
+                            ...board, 
+                            pieceClick: false, 
+                            whatColorPlays: color, 
+                            promotion: promotion,
+                            numberOfPlays: numberOfPlays,
+                        });
                 }
             }
         }

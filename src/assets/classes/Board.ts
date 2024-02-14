@@ -17,6 +17,7 @@ export class Board{
     blackKing: King;
     whiteKing: King;
     promotion: boolean;
+    numberOfPlays: number;
     //whatColorPlays = 1 eh branco e whatColorPlays = 2 eh preto
 
     constructor(){
@@ -30,14 +31,18 @@ export class Board{
         this.pieces.push(this.blackKing);
         this.pieces.push(this.whiteKing);
         this.promotion = false;
+        this.numberOfPlays = 0;
 
         var color = 1;
-        var p;
+        var piece;
         var l = 1;
         var c = 1;
         var id = 3;
+        var i = 0;
+        var j = 0;
 
-        for(l=1; l<=8; l++){
+
+        for(l=1; l<=8; l++){ //inicializa peças do tabuleiro
             for(c=1; c<=8; c++){
                 if(l==2 || l==7){
                     this.pieces.push(new Pawn(l, c, id));
@@ -77,12 +82,12 @@ export class Board{
             }
             if(l==2) { l=6;}
         }
-        
 
-        for(var i=1; i<=8; i++){
-            for(var j=1; j<=8; j++){
-                p = this.pieces.filter((piece) => piece.column == j && piece.line == i);
-                this.squares.push(new Square(false, color, i, j, p[0]))
+
+        for(i=1; i<=8; i++){ //inicializa casas do tabuleiro
+            for(j=1; j<=8; j++){
+                piece = this.pieces.filter((piece) => piece.column == j && piece.line == i);
+                this.squares.push(new Square(false, color, i, j, piece[0]))
                 color = color*(-1);
             }
             color = color*-1;
